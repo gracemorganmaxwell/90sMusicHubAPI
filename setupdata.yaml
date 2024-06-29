@@ -1,5 +1,5 @@
 #%RAML 1.0
-title: Gracies 90s Music Hub API
+title: Gracies 90's Music Hub API
 version: v1
 baseUri: http://api.gracies90smusichub.com/{version}
 mediaType: application/json
@@ -11,7 +11,7 @@ types:
       id: string
       name: string
       artist: string
-      releaseDate: date
+      releaseDate: string
   Artist:
     type: object
     properties:
@@ -47,6 +47,7 @@ types:
       type: Album
       example: |
         {
+          "id": "1",
           "name": "Nevermind",
           "artist": "Nirvana",
           "releaseDate": "1991-09-24"
@@ -55,7 +56,7 @@ types:
       201:
         body:
           type: Album
-/{id}:
+/{albumId}:
   get:
     description: Retrieve details of a specific album by ID.
     responses:
@@ -90,7 +91,7 @@ types:
                 "genre": "Grunge"
               }
             ]
-/{id}:
+/{artistId}:
   get:
     description: Retrieve details of a specific artist by ID.
     responses:
@@ -119,6 +120,7 @@ types:
       type: Playlist
       example: |
         {
+          "id": "1",
           "name": "90s Hits",
           "tracks": ["1", "2", "3"]
         }
@@ -126,7 +128,7 @@ types:
       201:
         body:
           type: Playlist
-/{id}:
+/{playlistId}:
   get:
     description: Retrieve details of a specific playlist by ID.
     responses:
