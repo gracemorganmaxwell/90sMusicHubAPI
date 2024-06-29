@@ -1,0 +1,15 @@
+{
+    "name": "@90s-music-hub/api",
+    "version": "1.0.0",
+    "description": "API for 90s Music Hub",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "mongodb": "^6.8.0",
+        "mongoose": "^6.0.12"
+    }
+}
