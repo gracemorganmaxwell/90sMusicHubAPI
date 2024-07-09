@@ -1,31 +1,52 @@
 require('dotenv').config();
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+const routes_users = require('./routes/routes_users');
+const routes_albums = require('./routes/routes_albums');
+const routes_artists = require('./routes/routes_artists');
+const routes_playlists = require('./routes/routes_playlists');
 
 const app = express();
 
+// Middleware
+app.use(bodyParser.json());
+
+// MongoDB connection
 const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
 
-async function run() {
-  try {
-    await client.connect();
-    console.log("Connected to MongoDB Atlas");
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log("Connected to MongoDB Atlas");
+}).catch(err => {
+  console.error("Error connecting to MongoDB Atlas:", err);
+});
 
-    const database = client.db(process.env.DB_NAME);
-    const collection = database.collection(process.env.COLLECTION_NAME);
+// Routes
+app.use('/api/users', routes_users);
+app.use('/api/albums', routes_albums);
+app.use('/api/artists', routes_artists);
+app.use('/api/playlists', routes_playlists);
 
-    const cursor = collection.find();
+// Handle 404 errors
+app.use((req, res, next) => {
+  const error = new Error('Not Found');
+  error.status = 404;
+  next(error);
+});
 
-    await cursor.forEach(doc => console.dir(doc));
-  } catch (err) {
-    console.error("Error connecting to MongoDB Atlas:", err);
-  } finally {
-    await client.close();
-  }
-}
-
-run().catch(console.dir);
+// Error handling
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.json({
+    error: {
+      message: error.message
+    }
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

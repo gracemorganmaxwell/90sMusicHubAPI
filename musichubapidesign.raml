@@ -1,0 +1,233 @@
+#%RAML 1.0
+title: Music Hub API
+version: v1
+baseUri: http://api.musichub.com/{version}
+mediaType: application/json
+
+/albums:
+  get:
+    description: Get a list of all albums
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              [
+                {
+                  "id": "1",
+                  "name": "Album 1",
+                  "artist": "Artist 1"
+                },
+                {
+                  "id": "2",
+                  "name": "Album 2",
+                  "artist": "Artist 2"
+                }
+              ]
+  post:
+    description: Create a new album
+    body:
+      application/json:
+        example: |
+          {
+            "name": "New Album",
+            "artist": "New Artist"
+          }
+    responses:
+      201:
+        body:
+          application/json:
+            example: |
+              {
+                "id": "3",
+                "name": "New Album",
+                "artist": "New Artist"
+              }
+  /{id}:
+    get:
+      description: Get details of a specific album by ID
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "id": "1",
+                  "name": "Album 1",
+                  "artist": "Artist 1"
+                }
+    put:
+      description: Update album details by ID
+      body:
+        application/json:
+          example: |
+            {
+              "name": "Updated Album Name",
+              "artist": "Updated Artist"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "id": "1",
+                  "name": "Updated Album Name",
+                  "artist": "Updated Artist"
+                }
+    delete:
+      description: Delete an album by ID
+      responses:
+        204:
+
+/artists:
+  get:
+    description: Get a list of all artists
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              [
+                {
+                  "id": "1",
+                  "name": "Artist 1",
+                  "genre": "Genre 1"
+                },
+                {
+                  "id": "2",
+                  "name": "Artist 2",
+                  "genre": "Genre 2"
+                }
+              ]
+  /{id}:
+    get:
+      description: Get details of a specific artist by ID
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "id": "1",
+                  "name": "Artist 1",
+                  "genre": "Genre 1"
+                }
+
+/playlists:
+  get:
+    description: Get a list of all playlists
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              [
+                {
+                  "id": "1",
+                  "name": "Playlist 1",
+                  "tracks": ["Track 1", "Track 2"]
+                },
+                {
+                  "id": "2",
+                  "name": "Playlist 2",
+                  "tracks": ["Track 3", "Track 4"]
+                }
+              ]
+  post:
+    description: Create a new playlist
+    body:
+      application/json:
+        example: |
+          {
+            "name": "New Playlist",
+            "tracks": ["Track 1", "Track 2"]
+          }
+    responses:
+      201:
+        body:
+          application/json:
+            example: |
+              {
+                "id": "3",
+                "name": "New Playlist",
+                "tracks": ["Track 1", "Track 2"]
+              }
+  /{id}:
+    get:
+      description: Get details of a specific playlist by ID
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "id": "1",
+                  "name": "Playlist 1",
+                  "tracks": ["Track 1", "Track 2"]
+                }
+    put:
+      description: Update playlist details by ID
+      body:
+        application/json:
+          example: |
+            {
+              "name": "Updated Playlist Name",
+              "tracks": ["Updated Track 1", "Updated Track 2"]
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "id": "1",
+                  "name": "Updated Playlist Name",
+                  "tracks": ["Updated Track 1", "Updated Track 2"]
+                }
+    delete:
+      description: Delete a playlist by ID
+      responses:
+        204:
+
+/users:
+  post:
+    description: User signup
+    body:
+      application/json:
+        example: |
+          {
+            "email": "example@example.com",
+            "password": "password123"
+          }
+    responses:
+      201:
+        body:
+          application/json:
+            example: |
+              {
+                "message": "User created successfully",
+                "user": {
+                  "id": "1",
+                  "email": "example@example.com"
+                }
+              }
+  /login:
+    post:
+      description: User login
+      body:
+        application/json:
+          example: |
+            {
+              "email": "example@example.com",
+              "password": "password123"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "message": "Authentication successful",
+                  "token": "jwt-token-value"
+                }
