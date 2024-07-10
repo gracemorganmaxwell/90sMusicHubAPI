@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const getNextSequenceValue = require("../utils/getNextSequenceValue");
+const getNextSequenceValue = require("../utils/counterFunction");
 
 const albumSchema = new mongoose.Schema({
 	id: { type: Number, unique: true },
