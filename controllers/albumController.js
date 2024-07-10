@@ -1,5 +1,5 @@
 const Album = require("../models/album");
-const { getNextSequenceValue } = require("../utils/counterFunction");
+const { getNextSequenceValue } = require("../utils/getNextSequenceValue");
 
 exports.getAllAlbums = async (req, res) => {
 	try {
