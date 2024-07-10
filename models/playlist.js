@@ -1,9 +1,19 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const getNextSequenceValue = require("../utils/counterFunction");
 
 const playlistSchema = new mongoose.Schema({
-  id: { type: String, required: true },
-  name: { type: String, required: true },
-  tracks: { type: [String], required: true }
+	id: { type: Number, unique: true },
+	name: { type: String, required: true },
+	tracks: { type: [String], required: true },
 });
 
-module.exports = mongoose.model('Playlist', playlistSchema);
+playlistSchema.pre("save", async function (next) {
+	if (this.isNew) {
+		this.id = await getNextSequenceValue("playlistId");
+	}
+	next();
+});
+
+const Playlist = mongoose.model("Playlist", playlistSchema);
+
+module.exports = Playlist;
