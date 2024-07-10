@@ -1,4 +1,5 @@
 const Album = require("../models/album");
+const { getNextSequenceValue } = require("../utils/counterFunction");
 
 exports.getAllAlbums = async (req, res) => {
 	try {
@@ -11,7 +12,8 @@ exports.getAllAlbums = async (req, res) => {
 
 exports.createAlbum = async (req, res) => {
 	try {
-		const newAlbum = new Album(req.body);
+		const seq = await getNextSequenceValue("albumId");
+		const newAlbum = new Album({ ...req.body, id: seq });
 		const savedAlbum = await newAlbum.save();
 		res.status(201).json(savedAlbum);
 	} catch (err) {
@@ -51,7 +53,7 @@ exports.deleteAlbum = async (req, res) => {
 		});
 		if (!deletedAlbum)
 			return res.status(404).json({ error: "Album not found" });
-		res.status(204).send();
+		res.status(204).json({ message: "Album deleted" });
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
