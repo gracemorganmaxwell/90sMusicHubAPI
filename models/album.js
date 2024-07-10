@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
-const getNextSequenceValue = require("../utils/counterFunction");
+const getNextSequenceValue = require("../utils/getNextSequenceValue");
 
 const albumSchema = new mongoose.Schema({
-	_id: { type: Number, required: true },
-	id: { type: String, required: true },
+	id: { type: Number, unique: true },
 	name: { type: String, required: true },
 	artist: { type: String, required: true },
 	releaseDate: { type: Date, required: true },
@@ -11,9 +10,11 @@ const albumSchema = new mongoose.Schema({
 
 albumSchema.pre("save", async function (next) {
 	if (this.isNew) {
-		this._id = await getNextSequenceValue("albumid");
+		this.id = await getNextSequenceValue("albumId");
 	}
 	next();
 });
 
-module.exports = mongoose.model("Album", albumSchema);
+const Album = mongoose.model("Album", albumSchema);
+
+module.exports = Album;

@@ -1,7 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const getNextSequenceValue = require("./utils/counterFunction");
 const Album = require("./models/album");
 const Artist = require("./models/artist");
 const Playlist = require("./models/playlist");
@@ -46,14 +45,8 @@ mongoose
 
 		const samplePlaylists = [
 			{ name: "Top Hits", tracks: ["Thriller", "Back in Black"] },
-			{
-				name: "Rock Classics",
-				tracks: ["Back in Black", "Comfortably Numb"],
-			},
-			{
-				name: "Best of the 80s",
-				tracks: ["Thriller", "Back in Black"],
-			},
+			{ name: "Rock Classics", tracks: ["Back in Black", "Comfortably Numb"] },
+			{ name: "Best of the 80s", tracks: ["Thriller", "Back in Black"] },
 		];
 
 		const sampleUsers = [
@@ -75,38 +68,7 @@ mongoose
 			},
 		];
 
-		// Adding sample data to MongoDB
 		try {
-			for (let user of sampleUsers) {
-				user.id = await getNextSequenceValue("userId");
-				user._id = user.id;
-			}
-
-			await User.insertMany(sampleUsers);
-			console.log("Sample data added successfully");
-		} catch (err) {
-			console.error("Error adding sample data:", err);
-		} finally {
-			mongoose.connection.close();
-		}
-
-		try {
-			for (let album of sampleAlbums) {
-				album.id = await getNextSequenceValue("albumId");
-			}
-
-			for (let artist of sampleArtists) {
-				artist.id = await getNextSequenceValue("artistId");
-			}
-
-			for (let playlist of samplePlaylists) {
-				playlist.id = await getNextSequenceValue("playlistId");
-			}
-
-			for (let user of sampleUsers) {
-				user.id = await getNextSequenceValue("userId");
-			}
-
 			await Album.insertMany(sampleAlbums);
 			await Artist.insertMany(sampleArtists);
 			await Playlist.insertMany(samplePlaylists);

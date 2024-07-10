@@ -1,6 +1,6 @@
 const Counter = require("../models/counter");
 
-async function getNextSequenceValue(sequenceName) {
+const getNextSequenceValue = async (sequenceName) => {
 	const sequenceDocument = await Counter.findOneAndUpdate(
 		{ _id: sequenceName },
 		{ $inc: { sequence_value: 1 } },
@@ -8,6 +8,6 @@ async function getNextSequenceValue(sequenceName) {
 	);
 
 	return sequenceDocument.sequence_value;
-}
+};
 
 module.exports = getNextSequenceValue;
